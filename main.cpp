@@ -1,38 +1,15 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
 #include "kdtree.hpp"
-
-class Person {
-public:
-    int id;
-    std::vector<float> embedding;
-
-    Person(int id, std::vector<float> embedding) : id(id), embedding(embedding) {}
-};
-
-class PersonDatabase {
-private:
-    std::unordered_map<int, Person> id_map;
-    KDTree kdtree;
-
-public:
-    void addPerson(const Person& person) {
-        id_map[person.id] = person;
-        kdtree.insert(person.embedding, person.id);
-    }
-
-    int searchPersonIdByEmbedding(const std::vector<float>& embedding) {
-        int nearestId = kdtree.findNearest(embedding);
-        return nearestId;
-    }
-};
-
+#include <iostream>
 int main() {
+    // Create a k-d tree instance
+    KDTree tree;
 
-    PersonDatabase personDatabase;
+    // Insert embeddings with corresponding IDs
+    tree.insert({0}, 0);
 
-    personDatabase.addPerson(Person(2, {4.0, 5.0, 6.0}));
+    // Search for the nearest embedding
+    int nearestId = tree.findNearest({0});
 
+    std::cout << "Nearest ID: " << nearestId << std::endl;
     return 0;
 }
